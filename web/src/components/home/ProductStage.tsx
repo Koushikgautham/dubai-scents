@@ -27,13 +27,19 @@ function hasWebGL() {
   }
 }
 
-/** Static stand-in used for reduced motion, no WebGL, or before the canvas mounts. */
+/** Static stand-in (a still of the same 3D bottle) for reduced motion, no WebGL, or before the canvas mounts. */
 function BottlePoster() {
   return (
-    <div className="pointer-events-none absolute inset-0 flex items-center justify-center md:justify-end md:pr-[12vw]">
-      <div className="relative h-[46vh] w-[22vh] max-w-[60vw]">
-        <div className="absolute inset-0 rounded-[40%] bg-[radial-gradient(closest-side,rgba(233,162,59,0.55),rgba(199,122,26,0.15)_60%,transparent)] blur-2xl" />
-      </div>
+    <div className="pointer-events-none absolute inset-0 flex items-start justify-center pt-[9vh] md:items-center md:justify-end md:pr-[9vw] md:pt-0">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/bottle-poster.png"
+        alt=""
+        width={420}
+        height={690}
+        className="h-[44vh] w-auto md:h-[74vh]"
+        decoding="async"
+      />
     </div>
   );
 }

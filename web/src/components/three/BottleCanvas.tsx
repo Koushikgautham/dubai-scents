@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useRef, type RefObject } from "react";
+import { Suspense, useRef, type RefObject } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment, Float, Lightformer } from "@react-three/drei";
+import { Environment, Float, Lightformer, useGLTF } from "@react-three/drei";
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const smooth = (a: number, b: number, v: number) => {
@@ -11,18 +11,20 @@ const smooth = (a: number, b: number, v: number) => {
   return t * t * (3 - 2 * t);
 };
 
-// Roll-on silhouette (radius, height) revolved around Y — authored, no external model.
-const GLASS_PROFILE: [number, number][] = [
-  [0, -1.2], [0.34, -1.2], [0.4, -1.16], [0.43, -1.06], [0.43, 0.66], [0.41, 0.8],
-  [0.34, 0.9], [0.23, 0.96], [0.2, 1.0], [0.2, 1.18], [0, 1.18],
-];
-const OIL_PROFILE: [number, number][] = [
-  [0, -1.06], [0.32, -1.06], [0.36, -1.0], [0.375, -0.9], [0.375, 0.48], [0.37, 0.5], [0, 0.5],
-];
+const MODEL_URL = "/models/rollon.glb";
 
-function lathe(profile: [number, number][], segments = 96) {
-  return new THREE.LatheGeometry(profile.map(([x, y]) => new THREE.Vector2(x, y)), segments);
-}
+// Runtime materials for the transmissive parts: three.js transmission samples the (transparent) page
+// background as black, so glass/oil/insert use tuned clear-reflective materials instead.
+const glassMat = new THREE.MeshPhysicalMaterial({
+  color: "#fff4e6", transparent: true, opacity: 0.17, roughness: 0.02, metalness: 0,
+  clearcoat: 1, clearcoatRoughness: 0.02, envMapIntensity: 2.4, specularIntensity: 1,
+  side: THREE.DoubleSide, depthWrite: false,
+});
+const oilMat = new THREE.MeshPhysicalMaterial({
+  color: "#1e0c02", emissive: "#6b2c05", emissiveIntensity: 1.0, roughness: 0.25,
+  clearcoat: 0.18, clearcoatRoughness: 0.45, envMapIntensity: 0.22,
+});
+const insertMat = new THREE.MeshStandardMaterial({ color: "#efe8dc", roughness: 0.55, metalness: 0, transparent: true, opacity: 0.85 });
 
 type RigProps = { progress: RefObject<number>; lowPower: boolean };
 
@@ -31,8 +33,7 @@ function Bottle({ progress }: RigProps) {
   const cap = useRef<THREE.Group>(null);
   const smoothed = useRef(0);
   const size = useThree((st) => st.size);
-  const glass = useMemo(() => lathe(GLASS_PROFILE), []);
-  const oil = useMemo(() => lathe(OIL_PROFILE, 64), []);
+  const { nodes } = useGLTF(MODEL_URL) as unknown as { nodes: Record<string, THREE.Mesh> };
 
   useFrame((state, delta) => {
     const target = progress.current ?? 0;
@@ -56,7 +57,7 @@ function Bottle({ progress }: RigProps) {
       g.scale.setScalar(s);
     }
     if (cap.current) {
-      cap.current.position.y = 1.62 + uncap * 1.35;
+      cap.current.position.y = uncap * 1.35;
       cap.current.rotation.y = uncap * 1.6;
       cap.current.position.x = uncap * 0.3;
     }
@@ -69,43 +70,12 @@ function Bottle({ progress }: RigProps) {
   return (
     <Float speed={1.1} rotationIntensity={0.12} floatIntensity={0.35} floatingRange={[-0.06, 0.06]}>
       <group ref={group}>
-        {/* glass body */}
-        <mesh geometry={glass} castShadow>
-          <meshPhysicalMaterial
-            color="#fff4e6"
-            transparent
-            opacity={0.16}
-            roughness={0.02}
-            metalness={0}
-            clearcoat={1}
-            clearcoatRoughness={0.02}
-            envMapIntensity={2.2}
-            specularIntensity={1}
-            side={THREE.DoubleSide}
-            depthWrite={false}
-          />
-        </mesh>
-        {/* amber oil */}
-        <mesh geometry={oil} scale={[0.985, 1, 0.985]}>
-          <meshPhysicalMaterial color="#7a3606" emissive="#3a1500" emissiveIntensity={0.9} roughness={0.18} clearcoat={0.35} clearcoatRoughness={0.2} sheen={0.5} sheenColor="#ffb35c" envMapIntensity={0.55} />
-        </mesh>
-        {/* steel roller ball */}
-        <mesh position={[0, 1.24, 0]}>
-          <sphereGeometry args={[0.15, 48, 48]} />
-          <meshStandardMaterial color="#f1ede6" metalness={1} roughness={0.16} envMapIntensity={1.8} />
-        </mesh>
-        {/* gold cap */}
-        <group ref={cap} position={[0, 1.62, 0]}>
-          <mesh castShadow>
-            <cylinderGeometry args={[0.26, 0.26, 1.0, 96, 1]} />
-            <meshStandardMaterial color="#c6a565" metalness={1} roughness={0.26} />
-          </mesh>
-          {[-0.4, 0.4].map((y) => (
-            <mesh key={y} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]}>
-              <torusGeometry args={[0.263, 0.01, 12, 96]} />
-              <meshStandardMaterial color="#a88848" metalness={1} roughness={0.35} />
-            </mesh>
-          ))}
+        <mesh geometry={nodes.Glass.geometry} material={glassMat} renderOrder={2} />
+        <mesh geometry={nodes.Oil.geometry} material={oilMat} />
+        <mesh geometry={nodes.Insert.geometry} material={insertMat} />
+        <mesh geometry={nodes.Ball.geometry} material={nodes.Ball.material} position={nodes.Ball.position} />
+        <group ref={cap}>
+          <mesh geometry={nodes.Cap.geometry} material={nodes.Cap.material} />
         </group>
       </group>
     </Float>
@@ -142,7 +112,11 @@ export default function BottleCanvas({ progress, active, eventSource, lowPower }
         <Lightformer form="rect" intensity={1.2} color="#ffe6c4" position={[5, 2, 1]} rotation-y={-Math.PI / 2.2} scale={[5, 3, 1]} />
         <Lightformer form="ring" intensity={0.8} color="#ffb35c" position={[0, -3, 3]} scale={3} />
       </Environment>
-      <Bottle progress={progress} lowPower={lowPower} />
+      <Suspense fallback={null}>
+        <Bottle progress={progress} lowPower={lowPower} />
+      </Suspense>
     </Canvas>
   );
 }
+
+useGLTF.preload(MODEL_URL);
