@@ -53,6 +53,7 @@ Dubai_Scents/
 | Motion foundation | `cinematic-gsap-lenis-motion-system`, `animation-systems`, `gsap` | `MengTo/Skills` |
 | Page patterns | `cinematic-scroll-storytelling`, `scroll-world-storytelling`, `gsap-scrolltrigger-storytelling`, `scroll-scrubbed-visual-sequence`, `horizontal-scroll-scenes`, `scroll-progress-timeline` | `MengTo/Skills` |
 | Type and surface details | `masked-reveal`, `scroll-scrubbed-word-reveal`, `progressive-blur`, `css-alpha-masking`, `css-border-gradient`, `beautiful-shadows`, `reveal-hover-effect` | `MengTo/Skills` |
+| 3D & imagery (added 2026-10-20 for the website hero) | `webgl-3d-object`, `threejs`, `3d-orbit-inspect-demo`, `unsplash-asset-images` | `MengTo/Skills` |
 | Aesthetic systems (pick at art direction) | `clean-minimal-beige-light-mode`, `book-serif-index` | `MengTo/Skills` |
 | Quality gates | `no-ai-design-slop`, `audit-ai-design-slop`, `optimize-web-animations`, `audit-reference-originality`, `video-to-superprompt`, `workflow-score-to-target` | `MengTo/Skills` |
 | Motion craft and review | `apple-design`, `emil-design-eng`, `review-animations`, `animation-performance`, `find-animation-opportunities` | `emilkowalski/skills` |

@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "3d-orbit-inspect-demo": {
+      "source": "MengTo/Skills",
+      "sourceType": "github",
+      "skillPath": "agent-skills/3d/3d-orbit-inspect-demo/SKILL.md",
+      "computedHash": "80077bcef7b2eb42f4789b1a14880a456f3cc693ccd52ece2ad1f5b0851aadde"
+    },
     "animation-performance": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
@@ -331,11 +337,23 @@
       "skillPath": "design-research/skills/survey-design/SKILL.md",
       "computedHash": "396055897bc78cb679d072e3cdea30016f63beac04fbacb4a4e7e67ca14bc48d"
     },
+    "threejs": {
+      "source": "MengTo/Skills",
+      "sourceType": "github",
+      "skillPath": "agent-skills/web-design/threejs/SKILL.md",
+      "computedHash": "4ad72664a1fa3569194a8c0dfe7fa09d6b1aea2e59363e93c9d663f0245c5194"
+    },
     "to-questionnaire": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "skillPath": "skills/productivity/to-questionnaire/SKILL.md",
       "computedHash": "befbec7005695163741a57bc94810dc5048fb766baaa485d5160b1d7f86335c1"
+    },
+    "unsplash-asset-images": {
+      "source": "MengTo/Skills",
+      "sourceType": "github",
+      "skillPath": "agent-skills/media/unsplash-asset-images/SKILL.md",
+      "computedHash": "9e2223693945f9a45ec68dbcf10d0d2a83384f8edacf00d991a452f3d38e68a0"
     },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
@@ -360,6 +378,12 @@
       "sourceType": "github",
       "skillPath": "skills/webapp-testing/SKILL.md",
       "computedHash": "ad5b1fc52807e9afa4635e59218a026b164dc58b6c3f41b0f7c644dcd6ccf572"
+    },
+    "webgl-3d-object": {
+      "source": "MengTo/Skills",
+      "sourceType": "github",
+      "skillPath": "agent-skills/web-design/webgl-3d-object/SKILL.md",
+      "computedHash": "ccdb154011337b18118876fe26e7597c20124d7db7219e50cdfd8dd28e713001"
     },
     "workflow-score-to-target": {
       "source": "MengTo/Skills",
