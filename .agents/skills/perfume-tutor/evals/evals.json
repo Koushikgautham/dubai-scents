@@ -1,0 +1,54 @@
+{
+  "skill_name": "perfume-tutor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "ok so i literally know nothing about oud and i'm flying to dubai in december to meet factories in sharjah and ajman. teach me what i need to know so i don't get taken for a ride. keep it practical",
+      "expected_output": "A focused, practical oud lesson: what oud is, natural vs accord reality and price, regional styles, red flags, phrases to use with a supplier and with a buyer, self-check questions, next lesson; progress and glossary files created/updated.",
+      "files": [],
+      "expectations": [
+        "Explains that most commercial 'oud' in perfume oils is a synthetic or blended accord and genuine oud oil is very expensive",
+        "Gives at least 3 concrete red flags for being cheated (e.g. '100% pure oud' at low price, no origin info, trader vs manufacturer)",
+        "Names at least 3 regional oud styles (e.g. Hindi/Assam, Cambodi, Malaysian/Indonesian, Thai)",
+        "Includes ready-to-use phrases/questions to ask a supplier",
+        "Includes self-check questions for the learner",
+        "Creates or updates a progress log file (knowledge/perfume/progress.md) recording this lesson",
+        "Creates or updates a glossary file (knowledge/perfume/glossary.md) with an oud entry",
+        "Explains that an IFRA certificate must allow use at (near) 100%/neat for oils sold undiluted in roll-ons",
+        "Advises asking for quotes at multiple volume tiers or comparing prices per kg of neat concentrate"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "here's roughly how my call with a d2c founder in bangalore went yesterday, can you critique me?\n\nme: hi priya, so our oils are straight from dubai, made in dubai actually, totally halal.\npriya: ok what scents?\nme: we have a sauvage type and an aventus type, they're really popular.\npriya: how long do they last?\nme: easily 24 hours, they're made for the desert so indian heat is nothing.\npriya: what's your moq and price?\nme: umm we're flexible, whatever you need.\npriya: do you have ifra docs?\nme: yeah i think so, i'll check.",
+      "expected_output": "A structured debrief that flags every risky claim (made in Dubai, halal, designer 'type' names, 24-hour longevity, desert argument) with safe alternatives, covers the weak commercial answers (MOQ/price, IFRA), scores the call, and offers Priya's next push-back to practise.",
+      "files": [],
+      "expectations": [
+        "Flags the 'made in Dubai' claim as wrong and gives the 'bottled in India / fragrance oil imported from UAE' style alternative",
+        "Flags 'halal' as a risky claim and suggests 'alcohol-free' instead",
+        "Flags 'Sauvage type' / 'Aventus type' naming as a trademark risk and suggests describing scent profiles",
+        "Flags the unsupported '24 hours' longevity claim as needing test evidence",
+        "Flags the 'made for the desert so Indian heat is nothing' argument as invalid (dry vs humid climate)",
+        "Calls out the vague MOQ/price answer and the unprepared IFRA answer, and gives better answers",
+        "Gives numeric scores per rubric area",
+        "Offers Priya's likely next push-back to practise",
+        "Points out that the learner asked Priya no discovery questions and lists questions they should have asked"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "quick one \u2014 whats the difference between ruh, attar, mukhallat and choya? and the shop guys in triplicane keep saying 'tola' \u2014 how much is that in grams and how do i convert their per-tola price to per kg? also save these in our glossary",
+      "expected_output": "Concise accurate definitions of ruh, attar (deg-bhapka/sandalwood base), mukhallat (Arabic blend), choya (dry-distilled smoky), tola ~11.66 g with the per-tola to per-kg conversion (~x86), how to use the words with shop owners, and glossary entries saved.",
+      "files": [],
+      "expectations": [
+        "Defines ruh as a pure distillate without a sandalwood base",
+        "Defines attar as distilled into a sandalwood oil base (deg-bhapka / Kannauj)",
+        "Defines mukhallat as an Arabic blended perfume oil",
+        "Defines choya as smoky notes from dry/destructive distillation",
+        "States 1 tola is approximately 11.66 g",
+        "Gives a correct per-tola to per-kg conversion (multiply by ~85.7, i.e. 1000/11.66)",
+        "Saves glossary entries for the requested terms to knowledge/perfume/glossary.md and logs the session in knowledge/perfume/progress.md"
+      ]
+    }
+  ]
+}

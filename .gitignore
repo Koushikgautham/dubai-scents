@@ -1,0 +1,17 @@
+# dependencies & builds
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+
+# env & secrets
+.env
+.env.*
+!.env.example
+
+# local tooling / test workspaces
+skill-workspaces/
+.DS_Store
+.vercel/
+*.log

@@ -1,0 +1,54 @@
+{
+  "skill_name": "uae-supplier-scout",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "find me 6-8 real perfume oil manufacturers in sharjah / ajman / dubai that could do private label alcohol-free oils for us. i'll be visiting in december. add them to our shortlist",
+      "expected_output": "6-8 UAE candidates each with source URLs and an honest verification level, manufacturer-vs-trader assessment, rows written to manufacturers.csv using the schema, a summary of top picks, gaps and what to verify on the trip.",
+      "files": [],
+      "expectations": [
+        "Lists 6-8 UAE candidate companies",
+        "Every candidate has at least one source URL",
+        "Each candidate is assessed as manufacturer vs trader (or marked unknown)",
+        "Each candidate has an explicit verification level and unverified claims are flagged rather than asserted",
+        "Writes rows to sourcing/manufacturers.csv using the project schema header",
+        "Summarises what to verify/ask during the December visits (e.g. authorisation letter, SDS/IFRA, exclusivity)",
+        "type and verified columns use only schema-allowed values (manufacturer/trader/unknown; confirmed/listed/unverified)",
+        "Excludes or explicitly flags sellers whose range is built on designer copies",
+        "Distinguishes company self-claims from third-party confirmation for at least some candidates"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I'm visiting Argus Cosmetics in Maraimalai Nagar on Saturday to see if they can fill our 6ml and 12ml roll-ons. what do i ask and what should i check while i'm there? also draft a short whatsapp msg asking for the meeting",
+      "expected_output": "A tailored filler visit checklist (licence validity, category 41 non-hydroalcoholic perfumes, loan licence hosting, run sizes, roll-on + bulk repack, QC, pricing, components), using what's already known about Argus (register licence C-1185, deodorant maker), a short WhatsApp draft for the founder to send, and a notes file.",
+      "files": [],
+      "expectations": [
+        "Uses known project facts about Argus (register licence C-1185 and/or that it's a deodorant/body-spray maker)",
+        "Asks whether the licence covers category 41 non-hydroalcoholic perfumes",
+        "Asks whether they will host a loan licence",
+        "Asks about minimum run sizes for 6 ml and 12 ml roll-ons",
+        "Includes a short WhatsApp draft for the user to send (not sent by the agent)",
+        "Records the visit prep in a notes file or updates sourcing/fillers.csv",
+        "Includes an on-site inspection checklist (what to look at, with good signs / red flags)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "a guy in a deira souk shop offered me oud oil and some 'sauvage type' oils at AED 300 a kg, says no paperwork needed and his cousin flies to chennai every month and can carry 10kg. sounds like a steal for our first stock?? should i do it",
+      "expected_output": "A clear walk-away (or strictly conditional) verdict explaining: trader not manufacturer, no SDS/IFRA, designer-type trademark risk, luggage carriage is illegal commercial import without CDSCO registration (seizure risk), cheap 'oud' is almost certainly an accord; what would change the verdict; recorded in a notes file.",
+      "files": [],
+      "expectations": [
+        "Gives a clear verdict not to proceed as offered",
+        "Explains that carrying stock in luggage for commercial use without CDSCO registration is illegal / seizure risk",
+        "Flags 'Sauvage type' as a trademark risk",
+        "Flags missing SDS/IFRA documentation",
+        "Flags that cheap 'oud' at that price is almost certainly an accord, not pure oud",
+        "Identifies the seller as likely a trader rather than a manufacturer",
+        "States what would change the verdict (e.g. manufacturer identity, documents, legal shipping)",
+        "Records the offer and verdict in a notes file",
+        "Suggests at least one legal salvage path (e.g. price benchmark, ask for the actual manufacturer, declared evaluation samples)"
+      ]
+    }
+  ]
+}

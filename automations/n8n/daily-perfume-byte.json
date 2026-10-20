@@ -1,0 +1,150 @@
+{
+  "name": "Daily Perfume Byte (Telegram)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * *"
+            }
+          ]
+        }
+      },
+      "id": "a1",
+      "name": "Every day 8:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Picks today's topic by day of year and builds the OpenAI prompt.\nconst TOPICS = [\n \"Fragrance concentration: extrait vs EDP vs EDT vs cologne vs perfume oil\",\n \"The fragrance pyramid: top, heart and base notes (and why it's a simplification)\",\n \"Fragrance families: floral, amber, woody, fresh\",\n \"What an accord is, with the amber accord as the example\",\n \"Longevity vs sillage vs projection\",\n \"Why oils wear closer to the skin than alcohol sprays\",\n \"How heat, humidity and skin type change how long a scent lasts\",\n \"Running an honest wear test in Chennai humidity\",\n \"Naturals: essential oils, absolutes, resinoids\",\n \"Key aroma chemicals to recognise: ambroxan, Iso E Super, hedione\",\n \"White musks and why real deer musk is gone from legitimate trade\",\n \"Amber vs ambergris vs ambroxan\",\n \"Oud 101: what agarwood is and how resin forms\",\n \"Natural oud vs oud blend vs oud accord - and how each is priced\",\n \"Regional oud styles: Hindi/Assam, Cambodi, Malaysian, Thai, kyara\",\n \"Red flags when someone sells you 'pure oud'\",\n \"CITES Appendix II and natural oud\",\n \"Kannauj deg-bhapka distillation and what makes a traditional attar\",\n \"Ruh: pure distillates like ruh gulab and ruh khus\",\n \"Mitti, shamama and hina attars\",\n \"Choya: smoky notes from dry distillation\",\n \"Mukhallat and CPO in the Gulf trade\",\n \"Taif rose and why cheap 'Taif rose' claims are suspicious\",\n \"The tola: weight tola vs 12 ml bottle vs 10 g, and converting to per-kg\",\n \"Comparing prices per kg of neat concentrate, not diluted oil\",\n \"Cost of oil in one 6 ml roll-on - quick maths\",\n \"Asking for quotes at volume tiers (1/5/25 kg)\",\n \"What's in an SDS and which sections to read\",\n \"Flash point and why 60 C matters for air freight\",\n \"IFRA certificate: max % per category and why neat use matters for roll-ons\",\n \"COA per batch and retained samples to stop sample switching\",\n \"Allergen declarations\",\n \"Dosage %: how B2B buyers use oils in sprays\",\n \"Evaluating oils on blotters: timing and technique\",\n \"Describing a scent by profile instead of designer names\",\n \"Trader vs manufacturer: how to tell in a factory visit\",\n \"Who owns the formula - and why it decides exclusivity\",\n \"Formula exclusivity and escrow\",\n \"The manufacturer authorisation letter for CDSCO\",\n \"Payment-detail fraud and safe payment practice\",\n \"Claims we never make: halal, designer 'type', 24-hour, Made in UAE\",\n \"Saying 'alcohol-free' truthfully\",\n \"Talking to attar shop owners: tola pricing and credit expectations\",\n \"Talking to D2C founders: discovery questions before pitching\",\n \"Shelf life, storage and maceration of perfume oils\"\n];\nconst SYSTEM_PROMPT = \"You are a friendly, precise perfume-trade mentor sending a short daily lesson by Telegram to two young founders in Chennai who are building an alcohol-free perfume-oil brand (oils from UAE manufacturers, filled in India, sold to Indian D2C brands, attar shops and consumers). Be practical, concrete and accurate; correct common myths; prefer numbers the trade actually uses. If you are not sure of a fact, leave it out rather than guess.\\n\\nFACTS YOU MUST KEEP CONSISTENT WITH (do not contradict; do not invent other numbers):\\n- Concentrations (ranges vary by house): extrait ~20-40%, EDP ~15-20%, EDT ~5-15%, cologne ~2-4%. Perfume oils/attars: compound used neat or diluted in a carrier oil.\\n- 1 tola = 11.66 g. Per-kg price ~= per-tola price x 86. A '12 ml tola bottle' factor = 1000/(12 x specific gravity): SG 0.90 -> x92.6, 0.95 -> x87.7, 1.00 -> x83.3. Some shops use 10 g -> x100.\\n- Air freight: flash point <= 60 C typically = UN1266 Class 3 dangerous goods. We ask suppliers for flash point > 60 C.\\n- IFRA certificate gives max use % per product category; our roll-ons use oil neat (~100%), so the certificate must allow that for leave-on skin fragrance (commonly Category 4).\\n- Most commercial 'oud' is an accord; genuine oud oil costs hundreds to thousands of USD per tola. Aquilaria/Gyrinops are CITES Appendix II.\\n- Traditional Kannauj attar = botanicals hydro-distilled (deg-bhapka) into sandalwood oil. Ruh = pure distillate without base. Mukhallat = Arabic for blend. Choya = smoky notes by dry distillation (choya nakh is animal-derived; choya ral from sal resin).\\n- Oils project less than alcohol sprays; longevity comes from concentration and base notes, not 'made for the desert' (Dubai is dry, Chennai is humid).\\n- Brand rules: never claim halal, never use designer names or 'type/inspired by', never state longevity numbers without wear tests, never say 'Made in Dubai/UAE' (our label: 'Made in India; fragrance oil imported from UAE').\\n\\nReturn ONLY a JSON object with keys: title (max 8 words), lesson (80-140 words, plain text, may use short line breaks), say_supplier (one sentence they can say to a UAE supplier), say_buyer (one sentence for an Indian buyer), quiz_question (one question testing today's lesson), quiz_options (array of 3 short options), quiz_answer (the correct option text), quiz_explanation (one sentence).\";\n// Set this to the cheapest current chat model in your OpenAI account (Dashboard -> Models).\nconst MODEL = 'gpt-4o-mini';\nconst now = new Date();\nconst start = new Date(now.getFullYear(), 0, 0);\nconst day = Math.floor((now - start) / 86400000);\nconst topic = TOPICS[day % TOPICS.length];\nreturn [{ json: { day, topic, model: MODEL, systemPrompt: SYSTEM_PROMPT,\n  userPrompt: `Today's topic: ${topic}. Write today's lesson.` } }];\n"
+      },
+      "id": "a2",
+      "name": "Pick topic",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: $json.model, temperature: 0.7, response_format: { type: 'json_object' }, messages: [ { role: 'system', content: $json.systemPrompt }, { role: 'user', content: $json.userPrompt } ] }) }}",
+        "options": {}
+      },
+      "id": "a3",
+      "name": "Ask OpenAI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Builds the Telegram message, shows yesterday's quiz answer, stores today's answer for tomorrow.\nconst esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\nlet b;\ntry { b = JSON.parse($json.choices[0].message.content); }\ncatch (e) { throw new Error('OpenAI did not return valid JSON: ' + e.message); }\nconst store = $getWorkflowStaticData('global');   // persists only for the active (scheduled) workflow\nlet text = '';\nif (store.lastQuiz) {\n  text += `<b>Yesterday's answer:</b> ${esc(store.lastQuiz.answer)}\\n<i>${esc(store.lastQuiz.explanation)}</i>\\n\\n`;\n}\ntext += `<b>\ud83c\udf3f Perfume byte \u2014 ${esc(b.title)}</b>\\n\\n${esc(b.lesson)}\\n\\n`;\ntext += `<b>Say it to a supplier:</b> ${esc(b.say_supplier)}\\n<b>Say it to a buyer:</b> ${esc(b.say_buyer)}\\n\\n`;\nconst opts = (b.quiz_options || []).map((o, i) => `${'ABC'[i]}) ${esc(o)}`).join('\\n');\ntext += `<b>\u2753 Quiz:</b> ${esc(b.quiz_question)}\\n${opts}\\n<i>Answer tomorrow.</i>`;\nstore.lastQuiz = { answer: b.quiz_answer, explanation: b.quiz_explanation };\nreturn [{ json: { text } }];\n"
+      },
+      "id": "a4",
+      "name": "Format message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "PUT_YOUR_CHAT_ID_HERE",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "a5",
+      "name": "Send to Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        880,
+        0
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every day 8:00": {
+      "main": [
+        [
+          {
+            "node": "Pick topic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick topic": {
+      "main": [
+        [
+          {
+            "node": "Ask OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Format message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format message": {
+      "main": [
+        [
+          {
+            "node": "Send to Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "timezone": "Asia/Kolkata",
+    "executionOrder": "v1"
+  }
+}

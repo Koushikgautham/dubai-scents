@@ -1,0 +1,50 @@
+{
+  "skill_name": "india-cosmetics-compliance",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "here's the label text for our 6ml roll-on, can you check it before the designer finalises?\n\nNAFHAAR \u2014 Royal Oud\nPure Arabian Attar \u00b7 Made in Dubai\n100% Halal \u00b7 Alcohol Free \u00b7 Lasts 24 hrs\nInspired by Tom Ford Oud Wood\nPrice: Rs 999\nwww.nafhaar.in",
+      "expected_output": "A table flagging missing mandatory items (actual manufacturer + M.L. No., Marketed by, net quantity, MRP incl. taxes, mfg/use-before date, consumer care, origin line) and risky claims (Made in Dubai, halal, 24 hrs, Tom Ford reference, 'Pure'/'Royal Oud' composition), with a corrected label.",
+      "files": [],
+      "expectations": [
+        "Flags missing actual manufacturer name/address and manufacturing licence number (M.L. No.)",
+        "Flags missing net quantity, MRP 'incl. of all taxes', mfg/expiry date and consumer-care contact",
+        "Flags 'Made in Dubai' and supplies the 'Made in India; fragrance oil imported from UAE' origin line",
+        "Flags '100% Halal' as a high-risk claim",
+        "Flags 'Lasts 24 hrs' as needing substantiation",
+        "Flags 'Inspired by Tom Ford Oud Wood' as a trademark/passing-off risk",
+        "Questions 'Pure Arabian Attar'/'Royal Oud' composition claims",
+        "Provides a corrected label text"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "we got 5 LOIs! what exactly do we file now and in what order to legally import our first 20kg of oil from the sharjah factory and get it filled at a chennai filler? give me forms, fees, timelines and what needs verifying",
+      "expected_output": "Ordered steps: loan licence COS-6->COS-9 with the filler (category 41, ~Rs10k, ~45 days + inspection) in parallel with CDSCO COS-1->COS-2 (Rule 12(4) bulk needs Indian licence details; manufacturer authorisation authenticated; fees per category/site/variant to verify; up to 6 months), Legal Metrology importer registration, IEC/GST prerequisites, SDS flash point/shelf life, duty ~31% to verify with broker; clear verify flags.",
+      "files": [],
+      "expectations": [
+        "Says the loan licence (COS-6 -> COS-9) with the filler is needed and that the filler's licence must cover category 41",
+        "Explains CDSCO import registration COS-1 -> COS-2 is required for the bulk oil and that the application needs the Indian (loan) licence details",
+        "Mentions the manufacturer authorisation letter must be authenticated (apostille/embassy/consulate)",
+        "Gives fee and timeline figures and marks the ones that need verification",
+        "Includes Legal Metrology importer registration",
+        "Mentions SDS flash point / dangerous-goods and shelf-life (>= 6 months) requirements for the shipment",
+        "Presents the steps in a sensible order with dependencies"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "draft instagram caption for our launch reel: 'Dubai's best kept secret is finally in India \ud83c\udde6\ud83c\uddea\u27a1\ufe0f\ud83c\uddee\ud83c\uddf3 our oils are made for the desert so they last all day in chennai heat. better than ajmal at half the price. relieves stress too. #halal #attar #dubaiperfume'. is this ok to post? fix it",
+      "expected_output": "Flags 'Dubai's best kept secret'/origin framing, desert/all-day longevity claim, comparative claim vs Ajmal, therapeutic 'relieves stress', #halal; provides a compliant, still punchy caption.",
+      "files": [],
+      "expectations": [
+        "Flags the 'relieves stress' therapeutic claim",
+        "Flags the comparative claim 'better than Ajmal'",
+        "Flags the desert / last-all-day longevity claim",
+        "Flags #halal",
+        "Flags the Dubai-origin framing / #dubaiperfume as misleading for an India-filled product",
+        "Provides a rewritten caption that keeps it engaging without the risky claims"
+      ]
+    }
+  ]
+}
