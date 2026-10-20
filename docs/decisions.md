@@ -4,6 +4,8 @@ A running record of settled decisions. Add new entries at the top. The full reas
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-20 | Website bottle is authored in Blender via script (`web/assets-src/rollon.py` → `public/models/rollon.glb`); runtime glass/oil materials tuned in three.js; poster captured from the web render | Reproducible asset; Blender 5.2 headless Cycles glass rendered black, so the web render is the source of truth |
+| 2026-10-20 | Vercel project must use Root Directory `web` + Next.js; root `vercel.json` serves only a placeholder | Root-level static deploy exposed docs/ and sourcing/ on the production URL for ~30 min; closed by the placeholder |
 | 2026-10-20 | Compliance skill tested and hardened; lead-gen and market-intel skills drafted (light-touch: validate on real use instead of full eval rounds) | Usage limits; baseline already strong on compliance, skill adds dependencies/format/project facts |
 | 2026-10-20 | Daily perfume lessons via self-hosted n8n + OpenAI ($5 credit) + Telegram bot (`automations/n8n/`); deep practice stays in Claude Code. Names parked for later (see docs/brand-naming.md) | Saves Claude quota; free channel; home-server downtime acceptable for non-customer automation |
 | 2026-10-20 | Name shortlist: Nafhaar (top), Samarah, Rawiya; Zaafira reserve. Tested shortlist + Argus prep promoted into sourcing/. Interview kit + LOI template + consumer survey created. Compliance skill drafted | Pre-trip sprint: name, buyer discovery and compliance are on the critical path |
