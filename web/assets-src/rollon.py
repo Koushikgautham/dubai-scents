@@ -5,10 +5,16 @@ Run headless from the repo root:
   /Applications/Blender.app/Contents/MacOS/Blender --background --factory-startup \
       --python web/assets-src/rollon.py -- [--render]
 
-Outputs:
-  web/public/models/rollon.glb      (separate nodes: Glass, Oil, Insert, Ball, Cap)
-  web/public/bottle-poster.png      (only with --render; transparent PNG fallback/OG image)
-  web/assets-src/rollon.blend       (source file for manual tweaks)
+This script builds the geometry only. The website uses pre-rendered frames from the
+"RollOn" scene in web/assets-src/rollon.blend (Cycles look-dev, lights, camera, 120-frame
+animation), rendered and encoded with:
+  Blender -b web/assets-src/rollon.blend -S RollOn -o <dir>/rollon_#### -F PNG -a
+  (cd web && node assets-src/encode-frames.mjs <dir>)   ->  web/public/bottle/{d,m}/0001.webp…
+
+Optional outputs (not used by the site):
+  web/assets-src/out/rollon.glb     (separate nodes: Glass, Oil, Insert, Ball, Cap)
+  web/assets-src/out/bottle-poster.png  (only with --render)
+  web/assets-src/out/rollon-geometry.blend
 
 Units are scene units matching the web scene (bottle body ≈ 2.4 tall, Y-up after glTF export).
 """
@@ -21,9 +27,9 @@ import bmesh
 import bpy
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-OUT_GLB = os.path.join(ROOT, "public", "models", "rollon.glb")
-OUT_PNG = os.path.join(ROOT, "public", "bottle-poster.png")
-OUT_BLEND = os.path.join(ROOT, "assets-src", "rollon.blend")
+OUT_GLB = os.path.join(ROOT, "assets-src", "out", "rollon.glb")
+OUT_PNG = os.path.join(ROOT, "assets-src", "out", "bottle-poster.png")
+OUT_BLEND = os.path.join(ROOT, "assets-src", "out", "rollon-geometry.blend")  # never overwrite the look-dev file
 ARGS = sys.argv[sys.argv.index("--") + 1 :] if "--" in sys.argv else []
 DO_RENDER = "--render" in ARGS
 
