@@ -59,6 +59,7 @@ CSV `score` is left empty until the visit confirms the must-haves.
 
 ## Contact log
 - 2026-10-20 — WhatsApp — Draft meeting request for Sat 2026-10-24 prepared (not sent; founder to approve). The only public number is the landline +91 44 2499 7181, so call or email info@argus.in first to get a WhatsApp number.
+- 2026-10-24 — Visit planned for today postponed/cancelled by the founders; the meeting request was never sent. Status stays `lead`. Reuse `sourcing/briefs/2026-10-24-argus-visit-prep.md` when rescheduling (change the date in the draft below).
 
 Draft:
 > Hello, this is [Your name] from [Brand name], a new Chennai fragrance brand. We're launching alcohol-free perfume oils as private-label 6 ml and 12 ml roll-ons. We'll import the oil in bulk from the UAE under our own CDSCO registration, and we're looking for a licensed filler near Chennai who can host our loan licence.
